@@ -2765,13 +2765,16 @@ def reformat_markdown_tables():
     format_md_tables_command = ["bash", "format-tables.sh"]
     cwd = os.getcwd() + "/.automation"
     logging.info("Running command: " + str(format_md_tables_command) + f" in cwd {cwd}")
-    with subprocess.Popen(format_md_tables_command, stdout=subprocess.PIPE, stderr=subprocess.STDOUT, universal_newlines=True, cwd=cwd) as p:
-        for line in p.stdout:
-            logging.info(line)
-        p.wait(timeout=30)
-        if p.returncode != 0:
-            logging.error(f"Format table return code: ({p.returncode})")
-            raise subprocess.CalledProcessError(p.returncode, p.args)
+    with subprocess.Popen(format_md_tables_command, 
+        stdout=subprocess.PIPE, 
+        stderr=subprocess.STDOUT, 
+        universal_newlines=True, cwd=cwd) as p:
+            for line in p.stdout:
+                logging.info(line)
+            p.wait(timeout=30)
+            if p.returncode != 0:
+                logging.error(f"Format table return code: ({p.returncode})")
+                raise subprocess.CalledProcessError(p.returncode, p.args)
 
 def generate_version():
     # npm version
